@@ -73,6 +73,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 | `b`     | Store last value into register B |
 | `c`     | Store last value into register C |
 | `*`     | Multiple the last value by 16 (or bitshift left 4) |
+| `/`     | Divide the last value by 16 (or bitshift right 4) |
 | `+`     | Increment the last value |
 | `-`     | Decrement the last value |
 | `$`     | Add the second-to-last value to the last value |
@@ -89,7 +90,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 
 **Additional Notes:**
 - Commands `"(){}ABC` read a new value and push it to the shift register.
-- Commands `*+-$_` modify the last value.
+- Commands `*/+-$_` modify the last value.
 - Commands `?.X,[]` access the last value(s) without modification.
 
 ---
