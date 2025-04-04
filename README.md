@@ -122,7 +122,7 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
 
 ### 2. Deque Manipulation
 ```jit
-#A[#B[#C[}.}.}.
+"A["B["C[}.}.}.
 ```
 - **Task:** Use the deque to reverse a string.
 - **Deque Input:** `[]` empty
