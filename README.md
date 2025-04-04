@@ -2,7 +2,7 @@
 
 JitScript is a unique 2D programming language developed in-house at **Jitter**. Crafted by **Hector Sere, Employee #2** (the go-to fixer who knows the Jitter codebase better than his own children, albeit a tad burnt out), this language is designed so that _new interns_ can maintain and extend the system alongside Hector.
 
-The language files use the extension `program.💾`.
+The language files use the save icon for the extension `program.💾`.
 
 ---
 
@@ -12,9 +12,9 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 
 - **Multiple Blocks:** A program consists of one or more blocks (rectangular grids of characters). Blocks are separated by blank lines and padded to form perfect rectangles.
   - The **first block** is the main block, executed at startup.
-  - **Subsequent blocks** are addressable by index (e.g., using `1` to call the second block, `2` for the third, etc.). When returning from a subblock, the cursor resumes from the call point in the parent block.
-- **Cursor Movement:** The cursor moves around within a block. Its initial position in the main block is at the lower left, facing right.
-- **Deque & Registers:** There is an unbounded deque (supporting left/right operations), three registers (A, B, and C), and a temporary shift register.
+  - **Subsequent blocks** are addressable by index (e.g., using `1` to call the second block, `2` for the third, etc.). When returning from a subblock, the cursor resumes from the call point in the parent block. (The direction may have changed.)
+- **Cursor Movement:** The cursor moves around within a block. Its initial position in the main block is specified below in **Cursor Initialization**.
+- **Deque & Registers:** There is an unbounded deque (supporting left/right operations), three registers (`A`, `B`, and `C`), and a 2 slot shift register for temporary storage.
 - **8-bit Arithmetic:** Every stored value is between `0x00` and `0xFF` (with wrap-around on overflow/underflow).
 - **Printing:** The print command outputs only characters with ASCII codes from `0x20` (space) to `0x7E` (`~`).
 
@@ -26,13 +26,27 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
   After stripping comments and trimming each line, every block must be a rectangle with a blank line both above and below. Lines are right-padded as necessary.
   
 - **Cursor Initialization:**  
-  When entering a block, the cursor is positioned based on the direction from which it is entering:
+  When entering a block, the cursor is positioned based on the direction from which it is entering (It is roughly the middle of the side you need to enter from given your direction.):
   
   - **Right (`>`):** `[0, len(rows)//2]`
   - **Down (`v`):** `[len(rows[0])//2, 0]`
   - **Left (`<`):** `[len(rows[0])-1, len(rows)//2]`
   - **Up (`^`):** `[len(rows[0])//2, len(rows)-1]`
-  
+```
+# The entrances are labelled below.  In practice, no need for an movement charcter at the entrance.
++----v----+
+|         |
+>         <
+|         |
++----^----+
+```
+```
+# Example with even dimensions.
++----v---+
+|        |
+>        <
++----^---+
+```
   When leaving a block, the cursor moves away from the call character in the direction it exited. The interpreter maintains a stack of subblocks, positions, and directions to resume execution correctly.
 
 - **Program Termination:**  
@@ -44,34 +58,38 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 
 | Command | Description |
 | ------- | ----------- |
-| `#`     | Comment (ignored by the interpreter) |
+| `#`     | Comment (rest of line ignored by the interpreter) |
 | `?`     | Conditional jump: compares the second-to-last value (x) with the last value (y) from the 2-element shift register and jumps: 0 if `x < y`, 1 if `x == y`, 2 if `x > y` |
-| `<`     | Move cursor left |
-| `>`     | Move cursor right |
-| `^`     | Move cursor up |
-| `v`     | Move cursor down |
+| `<`     | Set direction to left |
+| `>`     | Set direction to right |
+| `^`     | Set direction to up |
+| `v`     | Set direction to down |
 | `"`     | Literal toggle: store the next character literally |
+| `x`     | Hex Literal toggle: store the next hex digit |
 | `.`     | Print the previous value (ignores unprintable characters) |
-| `a`     | Store previous value into register A |
-| `b`     | Store previous value into register B |
-| `c`     | Store previous value into register C |
-| `+`     | Increment the next value |
-| `-`     | Decrement the next value |
+| `X`     | Print the hexidecimal representation of the previous value |
+| `,`     | Print the decimal representation of the previous value |
+| `a`     | Store last value into register A |
+| `b`     | Store last value into register B |
+| `c`     | Store last value into register C |
+| `*`     | Multiple the last value by 16 (or bitshift left 4) |
+| `+`     | Increment the last value |
+| `-`     | Decrement the last value |
 | `$`     | Add the second-to-last value to the last value |
 | `_`     | Subtract the second-to-last value from the last value |
-| `[`     | Push the previous value on the left side of the deque |
-| `]`     | Push the previous value on the right side of the deque |
+| `[`     | Push the last value on the left side of the deque |
+| `]`     | Push the last value on the right side of the deque |
 | `(`     | Peek (read without removing) from the left side of the deque |
 | `)`     | Peek (read without removing) from the right side of the deque |
-| `{`     | Pop (remove and return) the left side of the deque |
-| `}`     | Pop (remove and return) the right side of the deque |
+| `{`     | Pop (remove and read) the left side of the deque |
+| `}`     | Pop (remove and read) the right side of the deque |
 | `A`, `B`, `C` | Read a new value from the respective register (pushing the current last value to the shift register) |
 | `1`–`9` | Enter the corresponding subblock |
 
 **Additional Notes:**
-- Commands `#(){}ABC` read a new value, automatically pushing the current last value to the shift register.
-- Commands `+-$_` modify the last value.
-- Commands `?.[]` access the last value(s) without modification.
+- Commands `"(){}ABC` read a new value and push it to the shift register.
+- Commands `*+-$_` modify the last value.
+- Commands `?.X,[]` access the last value(s) without modification.
 
 ---
 
@@ -80,6 +98,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 - **8-bit Range:** All values are stored as 8-bit numbers (from `0x00` to `0xFF`).  
 - **Overflow Behavior:** Incrementing `0xFF` wraps around to `0x00`; decrementing `0x00` wraps around to `0xFF`.
 - **Printing Constraints:** Only values between `0x20` (space) and `0x7E` (`~`) are printed.
+- **Empty Deque:** Peeking or popping from an empty deque will.
 
 ---
 
@@ -94,7 +113,7 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
 - **Task:** Prints "Hello".
 - **Deque Input:** None.
 - **Expected Output:**
-  - **Console:** The printed character.
+  - **Console:** `Hello`
   - **Deque:** Unchanged.
 - **Description:** Use the literal toggle (`"`) to store a character and then the print command (`.`) to output it.
 
