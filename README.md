@@ -33,7 +33,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
   - **Left (`<`):** `[len(rows[0])-1, len(rows)//2]`
   - **Up (`^`):** `[len(rows[0])//2, len(rows)-1]`
 ```
-# The entrances are labelled below.  In practice, no need for an movement charcter at the entrance.
+# The entrances are labeled below.  In practice, no need for an movement charcter at the entrance.
 +----v----+
 |         |
 >         <
@@ -120,11 +120,14 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
 - **Description:** Use the literal toggle (`"`) to store a character and then the print command (`.`) to output it.
 
 ### 2. Deque Manipulation
-- **Task:** Push values to both ends of the deque and then pop them.
-- **Deque Input:** Start with an empty deque.
+```jit
+#A[#B[#C[}.}.}.
+```
+- **Task:** Use the deque to reverse a string.
+- **Deque Input:** `[]` empty
 - **Expected Output:**
-  - **Console:** (Optional) Printed popped values.
-  - **Deque:** The deque ends empty after all operations.
+  - **Console:** `CBA`
+  - **Deque:** `[]` empty.
 - **Description:** Use `[` and `]` to push values on the left and right, and `{` and `}` to pop them off.
 
 ### 3. Cursor Movement in a Block
