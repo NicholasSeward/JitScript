@@ -83,6 +83,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 | `)`     | Peek (read without removing) from the right side of the deque |
 | `{`     | Pop (remove and read) the left side of the deque |
 | `}`     | Pop (remove and read) the right side of the deque |
+| `E`     | isEmpty: Store 0xFF if the deque is empty else store 0x00 in the last value |
 | `A`, `B`, `C` | Read a new value from the respective register (pushing the current last value to the shift register) |
 | `1`–`9` | Enter the corresponding subblock |
 
@@ -99,6 +100,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 - **Overflow Behavior:** Incrementing `0xFF` wraps around to `0x00`; decrementing `0x00` wraps around to `0xFF`.
 - **Printing Constraints:** Only values between `0x20` (space) and `0x7E` (`~`) are printed.
 - **Empty Deque:** Peeking or popping from an empty deque will.
+- **Last Value:** Every time a new last value is stored, the previous last value becomes the second-to-last value.
 
 ---
 
