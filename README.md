@@ -14,7 +14,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
   - The **first block** is the main block, executed at startup.
   - **Subsequent blocks** are addressable by index (e.g., using `1` to call the second block, `2` for the third, etc.). When returning from a subblock, the cursor resumes from the call point in the parent block.
 - **Cursor Movement:** The cursor moves around within a block. Its initial position in the main block is at the lower left, facing right.
-- **Deque & Registers:** There is an unbounded deque (supporting left/right operations) and three registers (A, B, and C) for temporary storage.
+- **Deque & Registers:** There is an unbounded deque (supporting left/right operations), three registers (A, B, and C), and a temporary shift register.
 - **8-bit Arithmetic:** Every stored value is between `0x00` and `0xFF` (with wrap-around on overflow/underflow).
 - **Printing:** The print command outputs only characters with ASCII codes from `0x20` (space) to `0x7E` (`~`).
 
@@ -88,7 +88,10 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 Below are 10 example tasks demonstrating various operations in JitScript. For each, we describe the task, specify any required deque input, and outline the expected output (either on the console or as a final deque state).
 
 ### 1. Simple Output
-- **Task:** Print a single literal character.
+```jit
+"H."e."l."l."o.
+```
+- **Task:** Prints "Hello".
 - **Deque Input:** None.
 - **Expected Output:**
   - **Console:** The printed character.
