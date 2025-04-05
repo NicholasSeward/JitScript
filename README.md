@@ -109,7 +109,7 @@ JitScript is built around a dynamic 2D grid where a movable cursor executes code
 
 Below are 10 example tasks demonstrating various operations in JitScript. For each, we describe the task, specify any required deque input, and outline the expected output (either on the console or as a final deque state).
 
-### 1. Simple Output
+### Simple Output
 ```jit
 "H."e."l."l."o.
 ```
@@ -120,9 +120,9 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
   - **Deque:** Unchanged.
 - **Description:** Use the literal toggle (`"`) to store a character and then the print command (`.`) to output it.
 
-### 2. Deque Manipulation
+### Deque Manipulation
 ```jit
-"A["B["C[}.}.}.
+"A["B["C[{.{.{.
 ```
 - **Task:** Use the deque to reverse a string.
 - **Deque Input:** `[]` empty
@@ -131,39 +131,63 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
   - **Deque:** `[]` empty.
 - **Description:** Use `[` and `]` to push values on the left and right, and `{` and `}` to pop them off.
 
-### 3. Cursor Movement in a Block
+### Cursor Movement in a Block
+```jit
+v    A" <
+>    .  ^
+```
 - **Task:** Navigate the cursor across a block.
-- **Deque Input:** None.
+- **Deque Input:** `[]` empty.
 - **Expected Output:**
-  - **Console:** No output (unless a print command is executed during movement).
-  - **Deque:** Unchanged.
+  - **Console:** `AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...`
+  - **Deque:** `[]` empty.
 - **Description:** Demonstrate cursor movement using `<`, `>`, `^`, and `v` commands within the block.
 
-### 4. Arithmetic Operations
+### Arithmetic Operations
 - **Task:** Increment and decrement a value, demonstrating wrap-around behavior.
-- **Deque Input:** Begin with a value (e.g., starting at `0xFF`).
-- **Expected Output:**
-  - **Console:** (Optional) Printed results after arithmetic.
-  - **Deque:** Final value reflecting correct wrap-around (e.g., decrementing `0x00` yields `0xFF`).
-- **Description:** Use `+` and `-` to modify values, noting the 8-bit overflow/underflow behavior.
+```jit
+x0+, " . x0- ,
+```
+- **Deque Input:** `[]` empty.
+- **Expected Output:** 
+  - **Console:** `1 255`
+  - **Deque:** `[]` empty.
+- **Description:** Use `+` or `-` to modify values, noting the 8-bit overflow/underflow behavior.
 
-### 5. Register Storage and Retrieval
+### Register Storage and Retrieval
 - **Task:** Store a value into register A and retrieve it.
-- **Deque Input:** A value to be stored.
+```jit
+"* a  "-. A .
+```
+- **Deque Input:** `[]` empty.
 - **Expected Output:**
-  - **Console:** The value retrieved from register A (when printed).
-  - **Deque:** The shift register updates accordingly.
+  - **Console:** `-*`
+  - **Deque:** `[]` empty.
 - **Description:** Use `a` to store a value in register A and `A` to retrieve and push it onto the shift register.
 
-### 6. Looping with Conditional Jump
+### Conditional Jump
 - **Task:** Implement a loop using the conditional jump (`?`) command.
+```jit
+      >A."<.B.
+{a{b ?^vA.">.B.
+       >A."=.B.
+```
+- **Deque Input:** `[0x39(9), 0x32(2)]`
+- **Expected Output:**
+  - **Console:** `9>2`
+  - **Deque:** `[]` empty.
+- **Description:** Compare two values with `?` to conditionally jump
+
+### Looping with Conditional Jump
+- **Task:** Implement a loop using the conditional jump (`?`) command.
+
 - **Deque Input:** A sequence of numbers for comparison.
 - **Expected Output:**
   - **Console:** Iterative output demonstrating the loop’s progress.
   - **Deque:** Updated state depending on operations performed inside the loop.
 - **Description:** Compare two values with `?` to conditionally jump between sections of code, effectively creating a loop.
 
-### 7. Subblock Execution
+### Subblock Execution
 - **Task:** Enter a subblock to perform a distinct operation, then return to the main block.
 - **Deque Input:** Depends on subblock logic.
 - **Expected Output:**
@@ -171,7 +195,7 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
   - **Deque:** Intermediate states reflecting subblock operations.
 - **Description:** Use a digit command (e.g., `1`) to call a subblock; observe how execution resumes in the calling block upon subblock exit.
 
-### 8. Literal Toggle Usage
+### Literal Toggle Usage
 - **Task:** Use the literal toggle to store a character that might otherwise be interpreted as a command.
 - **Deque Input:** None.
 - **Expected Output:**
@@ -179,7 +203,7 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
   - **Deque:** Remains unchanged.
 - **Description:** Prefix a command character with `"` to ensure it is treated as data rather than an instruction.
 
-### 9. Overflow Behavior
+### Overflow Behavior
 - **Task:** Demonstrate arithmetic underflow by decrementing a value of `0x00`.
 - **Deque Input:** Start with `0x00`.
 - **Expected Output:**
@@ -187,7 +211,7 @@ Below are 10 example tasks demonstrating various operations in JitScript. For ea
   - **Deque:** The value becomes `0xFF` due to underflow.
 - **Description:** Use the `-` command on `0x00` to illustrate the wrap-around behavior.
 
-### 10. Combined Operation Example
+### Combined Operation Example
 - **Task:** Create a mini-program that combines deque operations, cursor movement, arithmetic, and register usage to generate a sequence.
 - **Deque Input:** Initialize with specific values as required by the algorithm.
 - **Expected Output:**
