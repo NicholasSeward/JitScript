@@ -229,5 +229,5 @@ Within the `JITR` folder, you'll find a single-file web sandbox designed to let 
    ```bash
    git clone https://github.com/NicholasSeward/JitScript.git
    cd JitScript```
-2. **Run JITR:** Open the file in the JITR folder using your preferred web browser to launch the interactive sandbox.
+2. **Run JITR:** [https://nicholasseward.github.io/JitScript/JITR/](launch JITR).
 3. **Contribute:** This project is maintained collaboratively by Hector Sere and our team of enthusiastic interns. Bug reports, feature requests, and contributions are welcome—please adhere to our contribution guidelines.
