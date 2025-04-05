@@ -166,7 +166,7 @@ x0+, " . x0- ,
 - **Description:** Use `a` to store a value in register A and `A` to retrieve and push it onto the shift register.
 
 ### Conditional Jump
-- **Task:** Implement a loop using the conditional jump (`?`) command.
+- **Task:** Use the conditional jump (`?`) command.
 ```jit
       >A."<.B.
 {a{b ?^vA.">.B.
@@ -180,44 +180,37 @@ x0+, " . x0- ,
 
 ### Looping with Conditional Jump
 - **Task:** Implement a loop using the conditional jump (`?`) command.
-
-- **Deque Input:** A sequence of numbers for comparison.
+```jit
+       v           <
+x8b A] >    {].A? v^
+       ^v ?Ab-B. "<
+```
+- **Deque Input:** `[0x68(h), 0x65(e), 0x6C(l), 0x6C(l), 0x6F(o)]`
 - **Expected Output:**
-  - **Console:** Iterative output demonstrating the loop’s progress.
-  - **Deque:** Updated state depending on operations performed inside the loop.
-- **Description:** Compare two values with `?` to conditionally jump between sections of code, effectively creating a loop.
+  - **Console:** `hello hello hello hello hello hello hello hello`
+  - **Deque:** `[0x68(h), 0x65(e), 0x6C(l), 0x6C(l), 0x6F(o), 0x00]`
+- **Description:** Put a 0x00 marker at end of deque.  Loop and print until you hit the marker.  Then decrement a counter (B) and loop to print the deque again.  Exit when counter is 0.
 
 ### Subblock Execution
-- **Task:** Enter a subblock to perform a distinct operation, then return to the main block.
-- **Deque Input:** Depends on subblock logic.
-- **Expected Output:**
-  - **Console:** Combined output from both the subblock and main block.
-  - **Deque:** Intermediate states reflecting subblock operations.
-- **Description:** Use a digit command (e.g., `1`) to call a subblock; observe how execution resumes in the calling block upon subblock exit.
+```jit
+#MAIN BLOCK
+> "Ab1 "Eb1 "Ib1 v
+^ v              <  v  .{ <     
+^ >    "Ob1 "Ub1    > CE?v^ 
 
-### Literal Toggle Usage
-- **Task:** Use the literal toggle to store a character that might otherwise be interpreted as a command.
-- **Deque Input:** None.
+#BLOCK 1       
+#REMOVE WHATEVER IS IN THE B REGISTER FROM THE QUEUE
+          >{
+     v       <  ]< <
+x0a ]>(A?v^>  B{?^v^
+         > ^ ^    <
+```
+- **Task:** Enter a subblock to perform a distinct operation, then return to the main block. (Remove vowels.)
+- **Deque Input:** `SOMETHING: [0x53(S), 0x4F(O), 0x4D(M), 0x45(E), 0x54(T), 0x48(H), 0x49(I), 0x4E(N), 0x47(G)]`
 - **Expected Output:**
-  - **Console:** The literal character is printed.
-  - **Deque:** Remains unchanged.
-- **Description:** Prefix a command character with `"` to ensure it is treated as data rather than an instruction.
-
-### Overflow Behavior
-- **Task:** Demonstrate arithmetic underflow by decrementing a value of `0x00`.
-- **Deque Input:** Start with `0x00`.
-- **Expected Output:**
-  - **Console:** If printed, the result should show `0xFF`.
-  - **Deque:** The value becomes `0xFF` due to underflow.
-- **Description:** Use the `-` command on `0x00` to illustrate the wrap-around behavior.
-
-### Combined Operation Example
-- **Task:** Create a mini-program that combines deque operations, cursor movement, arithmetic, and register usage to generate a sequence.
-- **Deque Input:** Initialize with specific values as required by the algorithm.
-- **Expected Output:**
-  - **Console:** A sequence of characters or numbers output by the program.
-  - **Deque:** The final state reflects all intermediate manipulations.
-- **Description:** Integrate multiple commands (e.g., pushing/popping on the deque, performing arithmetic, storing/retrieving registers, and calling subblocks) to demonstrate a full cycle of operations.
+  - **Console:** `SMTHNG`
+  - **Deque:** `[]` empty.
+- **Description:** Use a digit command (e.g., `1`) to call a subblock; observe how execution resumes in the calling block upon subblock exit. Pro tip: you can pass information into a block with a register or adding to the deque.
 
 ---
 
