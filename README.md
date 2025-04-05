@@ -4,6 +4,7 @@ JitScript is a unique 2D programming language developed in-house at **Jitter**. 
 
 The language files use the save icon for the extension `program.💾`.
 
+[Launch JITR Programming Sandbox](https://nicholasseward.github.io/JitScript/JITR/)
 ---
 
 ## Overview
@@ -229,5 +230,5 @@ Within the `JITR` folder, you'll find a single-file web sandbox designed to let 
    ```bash
    git clone https://github.com/NicholasSeward/JitScript.git
    cd JitScript```
-2. **Run JITR:** [https://nicholasseward.github.io/JitScript/JITR/](launch JITR).
+2. **Run JITR:** [launch JITR](https://nicholasseward.github.io/JitScript/JITR/).
 3. **Contribute:** This project is maintained collaboratively by Hector Sere and our team of enthusiastic interns. Bug reports, feature requests, and contributions are welcome—please adhere to our contribution guidelines.
