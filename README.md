@@ -173,7 +173,7 @@ x0+, " . x0- ,
 {a{b ?^vA.">.B.
        >A."=.B.
 ```
-- **Deque Input:** `[0x39(9), 0x32(2)]`
+- **Deque Input:** `92[0x39(9), 0x32(2)]`
 - **Expected Output:**
   - **Console:** `9>2`
   - **Deque:** `[]` empty.
@@ -186,10 +186,10 @@ x0+, " . x0- ,
 x8b A] >    {].A? v^
        ^v ?Ab-B. "<
 ```
-- **Deque Input:** `[0x68(h), 0x65(e), 0x6C(l), 0x6C(l), 0x6F(o)]`
+- **Deque Input:** `hello[0x68(h), 0x65(e), 0x6C(l), 0x6C(l), 0x6F(o)]`
 - **Expected Output:**
   - **Console:** `hello hello hello hello hello hello hello hello`
-  - **Deque:** `[0x68(h), 0x65(e), 0x6C(l), 0x6C(l), 0x6F(o), 0x00]`
+  - **Deque:** `hello00[0x68(h), 0x65(e), 0x6C(l), 0x6C(l), 0x6F(o), 0x00]`
 - **Description:** Put a 0x00 marker at end of deque.  Loop and print until you hit the marker.  Then decrement a counter (B) and loop to print the deque again.  Exit when counter is 0.
 
 ### Subblock Execution
@@ -207,7 +207,7 @@ x0a ]>(A?v^>  B{?^v^
          > ^ ^    <
 ```
 - **Task:** Enter a subblock to perform a distinct operation, then return to the main block. (Remove vowels.)
-- **Deque Input:** `SOMETHING: [0x53(S), 0x4F(O), 0x4D(M), 0x45(E), 0x54(T), 0x48(H), 0x49(I), 0x4E(N), 0x47(G)]`
+- **Deque Input:** `SOMETHING[0x53(S), 0x4F(O), 0x4D(M), 0x45(E), 0x54(T), 0x48(H), 0x49(I), 0x4E(N), 0x47(G)]`
 - **Expected Output:**
   - **Console:** `SMTHNG`
   - **Deque:** `[]` empty.
